@@ -1,0 +1,48 @@
+<ion-view class="imgBackground" view-title="Welcome">
+  <ion-content padding="true">
+    <div class="list" id="checkboxList">
+      <h4 class="text-center" style="color: white">
+        Lets get you set up!
+      </h4>
+
+      <div class="item item-divider" style="font-size: 10pt">
+        Select the siyum you would like to be a part of.
+      </div>
+      <ion-checkbox  ng-repeat="item in learningChoices"
+                    ng-model="item.checked"
+                    ng-checked="item.checked"
+                     ng-change="checkedOrNot(item.text, item.checked)">
+        {{ item.text }}
+      </ion-checkbox>
+    </div>
+
+      <button class="button button-block button-stable" style="width: 40%; margin-left: 10%" on-tap="onSelected()" ng-show="!didSelect">
+        Select
+      </button>
+
+      <div ng-show="didSelect">
+        <center style="color: white">Now select a time that you want to be reminded to learn</center>
+
+        <a on-tap="openTimePicker()" class="item item-icon-left" href="#" >
+          <i style="color:#007ee6;" class="icon ion-ios-alarm-outline"></i>
+          <label class="item item-input">
+            <div class="input-label">
+              Select
+            </div>
+            <p id="set-frequency" style="float: right">
+              {{currentAlertTime}}
+            </p>
+          </label>
+        </a>
+
+
+        <button class="button button-block button-stable" style="width: 40%; margin-left: 5%" on-tap="onSubmit()" ng-show="currentAlertTime">
+          Submit
+        </button>
+      </div>
+
+
+
+
+  </ion-content>
+</ion-view>

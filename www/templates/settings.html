@@ -1,0 +1,72 @@
+<ion-view class="imgBackground" view-title= "Settings">
+	<ion-nav-bar class="bar-stable" align-title="center">
+		<ion-nav-buttons side="left">
+			<button ng-controller="AppController" on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+		</ion-nav-buttons>
+		<ion-nav-buttons side="right">
+			<button on-tap="goToSplash()" class="button button-icon button-clear ion-ios-checkmark-outline"></button>
+		</ion-nav-buttons>
+	</ion-nav-bar>
+	<ion-content class="mishna-paper">
+		<div class="center item item-divider">
+			Personal Details
+		</div>
+		<div class="list">
+			<a class="item item-icon-left" href="#">
+				<i style="color:#007ee6;" class="icon ion-ios-email-outline"></i>
+				<label class="item item-input">
+        <input id="set-email" type="text" placeholder="{{email}}" disabled>
+      </label>
+			</a>
+
+			<a class="item item-icon-left" href="#" ng-show="phone">
+				<i style="color:#007ee6;" class="icon ion-ios-telephone-outline"></i>
+				<label class="item item-input">
+        <input id="set-phone" type="text" placeholder="{{phone}}" disabled>
+      </label>
+			</a>
+
+      <div id="checkboxList">
+        <div class="center item item-divider">
+          Choose your לימוד
+        </div>
+        <ion-checkbox  ng-repeat="item in learningChoices"
+                       ng-model="item.checked"
+                       ng-checked="item.checked"
+                       ng-change="checkedOrNot(item.text, item.checked)">
+          {{ item.text }}
+        </ion-checkbox>
+      </div>
+
+
+			<!--Notification alarm -->
+			<div class="center item item-divider">
+        Setup your daily reminder time
+			</div>
+			<a on-tap="openTimePicker()" class="item item-icon-left" href="#" >
+				<i style="color:#007ee6;" class="icon ion-ios-alarm-outline"></i>
+        <label class="item item-input">
+          <div class="input-label">
+            Select
+          </div>
+          <p id="set-frequency" style="float: right">
+            {{currentAlertTime}}
+          </p>
+        </label>
+			</a>
+
+      <button class="button button-clear button-assertive text-center" style="width: 100%; align-content: center" on-tap="cancelReminder()" >
+        Cancel Alert
+      </button>
+
+
+			<!--DELETE ACCOUNT -->
+			<div class="center item item-divider">
+				Account
+			</div>
+			<button on-tap="deleteAccount()" class="button button-assertive" style="width: 100%;">
+        Delete my account
+      </button>
+		</div>
+	</ion-content>
+</ion-view>

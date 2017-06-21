@@ -1,0 +1,30 @@
+<ion-view class="imgBackground" view-title="Admin">
+  <ion-nav-buttons side="left">
+    <button ng-controller="AppController" on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button ng-controller="AppController" class="button button-icon button-clear ion-ios-home-outline" on-tap="goToSponsor()">
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true">
+    <div class="semiCircle"></div>
+    <div class="shadowBox">
+
+          <table>
+            <tr class="tableHead">
+              <th>Amount</th>
+              <th>Message</th>
+              <th>Published</th>
+            </tr>
+            <tr class="tableColumn" ng-repeat="sponsor in sponsors">
+              <td>{{sponsor.amount}}</td>
+              <td id="message{{sponsor.sponsor_id}}" on-tap="setMessage({{sponsor}})">{{sponsor.message}}</td>
+              <td style="color: white; text-align: center" on-tap="changeMessageStatus({{sponsor}})">
+                <u id="status{{sponsor.sponsor_id}}">{{(sponsor.published == 1)? "yes": "no"}}</u>
+              </td>
+            </tr>
+          </table>
+
+    </div>
+  </ion-content>
+</ion-view>

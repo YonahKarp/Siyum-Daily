@@ -1,0 +1,84 @@
+<ion-view class = "homeView" view-title="Siyum Daily Home">
+  <ion-nav-buttons side="left">
+    <button ng-controller="AppController" on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-top-tabs">
+		<section class="login-container">
+      <div>
+        <h4 class="text-center">
+          A Project of <br> Yeshiva Ateres Shimon
+          <br> Far Rockaway, NY
+        </h4>
+      </div>
+
+      <div class="col center">
+        <img ng-src="img/newLogo.png" width="100" height="100">
+      </div>
+
+      <div>
+        <h4 class="text-center">
+          Learn <strong>just one</strong> משנה/פרק תהלים
+          <br> and collectively we will make a siyum <em>daily</em> on משנה and תהלים.
+        </h4>
+        <br>
+      </div>
+
+      <div>
+        <button ng-show="$root.showMishna" class="button button-block button-stable" on-tap="goToMyMishna()" >
+          Go to my משנה
+          <img ng-src="img/bookBlue.png" align="right"/>
+        </button>
+        <button ng-show="$root.showTehillim" class="button button-block button-royal" on-tap="goToMyTehillim()">
+          Go to my תהלים
+          <img ng-src="img/bookPurple.png" align="right"/>
+        </button>
+
+        <button on-tap="goToSettings()" class="button button-block button-stable"  ng-show="!($root.showTehillim || $root.showMishna)">
+          Add a לימוד in settings to start learning
+        </button>
+			</div>
+
+      <!--Sponsor messages-->
+      <div class="semiCircle"></div>
+
+      <div class="shadowBox">
+        <div>
+          <i style="float: right; color: white" class="icon ion-refresh" on-tap="getSponsorsFromServer()"></i>
+          <h4 style=" text-align:center;">
+            <strong>Today's Learning is Dedicated</strong>
+          </h4>
+          <h4>
+            In honor of:
+          </h4>
+          <div ng-repeat="message in messagesInHonor">
+            <h5 style="font-style:italic;" ng-show="message">&emsp;-{{message}}</h5>
+          </div>
+          <h4>
+            In memory of:
+          </h4>
+          <div ng-repeat="message in messagesInMemory">
+            <h5 style="font-style:italic;" ng-show="message">&emsp;-{{message}}</h5>
+          </div>
+          <h4>
+            As a זכות for:
+          </h4>
+          <div ng-repeat="message in messagesAsZchus">
+            <h5 style="font-style:italic;" ng-show="message">&emsp;-{{message}}</h5>
+          </div>
+
+          <button  class="button button-block button-stable" on-tap="goToDonation()">
+            Sponsor learning
+          </button>
+
+        </div>
+      </div>
+
+      <button class="button button-block button-stable" on-tap="getSponsorsFromServer()">
+        Refresh Sponsors<i style="float: right" class="icon ion-refresh"></i>
+      </button>
+
+      <div style="height: 1.5em">
+      </div>
+		</section>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,54 @@
+<ion-view class = "loginView">
+  <ion-header-bar class="bar-stable">
+    <h1 class="title">Siyum Daily</h1>
+  </ion-header-bar>
+	<ion-content>
+		<section class="login-container">
+      <div>
+        <h4 class="text-center">
+          A Project of <br> Yeshiva Ateres Shimon
+          <br> Far Rockaway, NY
+        </h4>
+      </div>
+
+      <div class="col center">
+        <img ng-src="img/newLogo.png" width="100" height="100">
+      </div>
+
+      <div>
+        <h4 class="text-center">
+          Learn <strong>just one</strong> משנה/פרק תהלים
+          <br> and collectively we will make a siyum <em>daily</em> on משנה and תהלים.
+        </h4>
+        <br>
+      </div>
+
+      <ion-spinner class="center" ng-show="spin"></ion-spinner>
+
+      <div id="loginInputContainer">
+        <div class="col center">
+          <input class="inputUser" type="email" id="user-email" placeholder="Email Address">
+        </div>
+
+        <div class="col center">
+          <input class="inputPhone" type="number" id="user-phone" placeholder="Phone number">
+        </div>
+
+
+        <div class="col button-row">
+          <button class="button button-block button-stable" on-tap="signUp()" ng-disabled="spin">
+            Register
+          </button>
+          <!--button class="button button-block button-stable" on-tap="goToSignIn()">
+            Log In
+          </button-->
+          <h5 style="margin-top: 1em">
+            Already have an account?
+          </h5>
+          <u style="padding: .02em; font-size: 14pt; color: white" on-tap="goToSignIn()">Login here</u>
+        </div>
+      </div>
+
+		</section>
+	</ion-content>
+</ion-view>

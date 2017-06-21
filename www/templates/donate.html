@@ -1,0 +1,80 @@
+<ion-view class="imgBackground" view-title="Siyum Daily">
+	<ion-nav-buttons side="left">
+		<button ng-controller="AppController" on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<button ng-controller="AppController" class="button button-icon button-clear ion-ios-home-outline" on-tap="goToSponsor()">
+    </button>
+	</ion-nav-buttons>
+	<ion-content padding="true" class="mishna-paper">
+
+    <div class="card">
+			<div class="item item-text-wrap">
+				<p class="center" style="color:#007ee6!important;">
+					Donate to be part of our daily learning.
+				</p>
+			</div>
+		</div>
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Select
+        </div>
+        <select ng-model="sponsorOptions" ng-change="refreshAmount(sponsorOptions)">
+           <option value=''>Sponsor option</option>
+           <option ng-repeat="option in options" value="{{ option[1] }}">{{option[0]}}</option>
+        </select>
+      </label>
+		</div>
+		<form novalidate stripe-form="stripeCallback">
+			<div class="list">
+        <label class="item item-input">
+          <input type="text" ng-model="name" placeholder="name" />
+        </label>
+        <label class="item item-input" ng-show=selectedSponsorOption ng-if=noSelectedSponsorOption>
+          <input id="sponsor-selected-option" disabled type="text" placeholder="{{selectedSponsorOption}}">
+        </label>
+				<label class="item item-input">
+					<input type="tel" ng-model="number" placeholder="Card Number"  payments-validate="card" payments-format="card"/>
+        </label>
+				<label class="item item-input">
+          <input type="tel" ng-model="expiry"  placeholder="Expiration MM/YY" payments-validate="expiry" payments-format="expiry">
+        </label>
+				<label class="item item-input">
+          <input type="tel" ng-model="cvc" placeholder="CVC" payments-validate="cvc" payments-format="cvc">
+        </label>
+				<label class="item item-input" ng-show="showAmountInput">
+          <input type="tel" ng-model="sponsorAmount" placeholder="Insert your amount in USD" id="get-user-amount">
+        </label>
+
+
+
+        <br>
+        <div class="list">
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Select
+            </div>
+
+            <select id="messageType" >
+              <option value="In honor of: ">In honor of: </option>
+              <option value="In memory of: ">In memory of: </option>
+              <option value="As a זכות for: ">As a זכות for: </option>
+            </select>
+          </label>
+
+
+          <label class="item item-input">
+            <textarea rows="4" id="message" placeholder="Your sponsorship message"></textarea>
+          </label>
+        </div>
+
+        <div class="center" ng-show="spin">
+          Waiting for credit card company  <ion-spinner ></ion-spinner>
+        </div>
+
+				<button class="button button-block button-balanced" type="submit" on-tap="spinForCallback()">Donate</button>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

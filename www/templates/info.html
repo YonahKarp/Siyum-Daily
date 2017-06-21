@@ -1,0 +1,58 @@
+<ion-view class="imgBackground" view-title="Learning Stats">
+  <ion-nav-buttons side="left">
+    <button ng-controller="AppController" on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button ng-controller="AppController" class="button button-icon button-clear ion-ios-home-outline" on-tap="goToSponsor()">
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true">
+
+    <!--Stats-->
+    <div class="semiCircle"></div>
+    <div class="shadowBox">
+      <div>
+
+        <h4><strong> Your Learning:</strong></h4>
+
+        <ul>
+          <li>{{yourMishnaTotal}} total משניות</li>
+          <li>{{yourTehillimTotal}} total פרקים תהלים</li>
+        </ul>
+
+
+
+        <h4><strong> Last Week's Learning:</strong></h4>
+
+        <ul class="accompList" >
+          <li >{{newMishnayos}} משניות</li>
+          <li>{{newTehillim}} פרקים תהלים</li>
+        </ul>
+
+
+
+
+
+        <h4 style="margin-top: 2em"><strong>Siyum Daily Total Accomplishments:</strong></h4>
+
+        <ul class="accompList">
+          <li >{{mishnaCycle}} סיומי משניות</li>
+          <li>{{tehillimCycle}} סיומי תהלים</li>
+
+          <li>{{mishnaTotal}} משניות</li>
+          <li>{{tehillimTotal}} תהלים</li>
+        </ul>
+
+        <p style="margin-top: 1.5em">
+          - Overall Statistics update every Sunday
+        </p>
+        <p>
+          (last updated {{sunday}})
+        </p>
+
+      </div>
+    </div>
+    <div style="height: 1.5em">
+    </div>
+  </ion-content>
+</ion-view>

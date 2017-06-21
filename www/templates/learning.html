@@ -1,0 +1,124 @@
+<ion-view class = "{{learningView}}" view-title="{{viewtitle}}" style="height: 100%">
+  <ion-nav-bar class="bar-balanced">
+    <ion-nav-buttons side="left">
+      <button  on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-ios-home-outline" on-tap="goHome()">
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+
+    <!--h5 style="text-align: center"> {{sponsorMessage}} </h5-->
+    <ion-spinner class="center" ng-show="!(hebrew || hebrewContext) && spin"></ion-spinner>
+
+    <div class="nextCycle" ng-show="hebrew || hebrewContext">
+      <p ng-show="hebrew" class="text-center">
+        This is your {{table}}
+        <br>Learn <strong>just one</strong> and collectively we will make a siyum daily.
+      </p>
+
+      <p ng-show="!hebrew" class="text-center">
+        The {{table}} below is for reference only.
+        <br>To return to <em>your</em> {{table}}, use the button below.
+      </p>
+
+      <h5>We will assign you a new {{table}} every sunday</h5>
+    </div>
+
+    <div ng-show="hebrew || hebrewContext" class="center hebrew" style=" margin-top:10px; white-space:nowrap;" >
+      {{title}}
+    </div>
+
+
+    <!-- Learning -->
+    <div class="learningContainer">
+      <div ng-show="hebrew" class="center" style="margin-top:5px;" >
+        <div  on-tap="openModal()">
+          <div  class="hebrew" style="margin: 1em; text-align: right;">
+            {{hebrew}}
+          </div>
+        </div>
+      </div>
+
+      <div ng-show="hebrewContext && !hebrew" class="center" style="margin-top:5px;" on-tap="openModal()">
+        <div>
+          <div class="hebrew" style="margin: 1em; text-align: right">
+            {{hebrewContext}}
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-left: 0.5em">
+        <span ng-show="(hebrew || hebrewContext) && showCommentaryTip < 2" style="text-align:center; color: #007aff; font-size: small" > -Tap on {{table}} for commentary </span>
+        <br ng-show="showCommentaryTip <2 && showReferenceTip < 5">
+        <span ng-show="(hebrew || hebrewContext) && showReferenceTip< 5" style="text-align:center; color: #007aff; font-size: small" > -Use the arrows below to <strong><em>Reference</em></strong> other passages </span>
+        <br ng-show="showCompleteTip < 2 && (showReferenceTip < 5|| showCommentaryTip < 2)">
+        <span ng-show="(hebrew || hebrewContext) && showCompleteTip < 2" style="text-align:center; color: #38b0f5; font-size: small" > -Remember to hit the 'Mark as completed' button when you finish learning your {{table}}</span>
+      </div>
+
+      <div ng-show="hebrew || hebrewContext" class="center" style="margin-top:5px; padding-bottom: 10px">
+        <div>
+          <div class="english" style="margin: 1em">
+            {{english}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+  </ion-content>
+
+  <div class="footer" >
+    <div class="row">
+      <div class="col text-center">
+        <button ng-show="hebrew || hebrewContext"  class="button small-button button-outline button-balanced" on-tap="getContext(-1)">
+          <i class="icon ion-chevron-left"></i>
+        </button>
+
+        <button ng-disabled="disableCompleteButton" class="button  button-outline" ng-class="{'hidden': !hebrew,'button-balanced': !completed, 'button-light': completed }" on-tap="markAsCompleted()">
+          Mark as completed
+        </button>
+
+        <button ng-class="{'hidden': !hebrewContext}" class="button  button-outline button-balanced" on-tap="backToLearning()">
+          Back to my {{table}}
+        </button>
+
+        <button  ng-show="hebrew || hebrewContext" class="button small-button button-outline button-balanced" on-tap="getContext(1)">
+          <i class="icon ion-chevron-right"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!--ion-footer-bar class="bar-light">
+    <div  class="center" style="margin-top: 0.5em">
+      <button ng-show="hebrew || hebrewContext"  class="button button-small  button-balanced" style="height: 3em; margin-right: 0.5em;" on-tap="getContext(-1)">
+        <i class="icon ion-chevron-left"></i>
+      </button>
+
+      <button  ng-show="hebrew" ng-disabled="disableCompleteButton" class="button button-outline" ng-class="{'button-balanced': !completed, 'button-light': completed}" style="background-color: #4b8bf4 !important;" on-tap="markAsCompleted()">
+        Mark as completed
+      </button>
+
+      <button ng-show="hebrewContext && !hebrew" class="button button-block button-balanced" style="background-color: #4b8bf4 !important;" on-tap="backToLearning()">
+        Back to my {{table}}
+      </button>
+
+      <button  ng-show="hebrew || hebrewContext" class="button button-small button-balanced" style="height: 3em; margin-left: 0.5em;" on-tap="getContext(1)">
+        <i class="icon ion-chevron-right"></i>
+      </button>
+    </div>
+  </ion-footer-bar-->
+
+</ion-view>
+
+

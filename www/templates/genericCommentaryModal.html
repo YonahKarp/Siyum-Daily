@@ -1,0 +1,42 @@
+<ion-bottom-sheet-view>
+  <ion-header-bar>
+
+    <a style="color: white" class="button button-icon icon ion-chevron-left" ng-show = "$root.showCommentary" on-tap="$root.showCommentary = '' ; $root.commentaryTitle = 'Commentary'"></a>
+    <h1 class="hebrew title">{{$root.commentaryTitle}}</h1>
+    <button style="color: white" class="button button-icon icon ion-android-close" on-tap="closeModal()"></button>
+
+  </ion-header-bar>
+  <ion-content class="mishna-paper" >
+    <div style=" margin: 1.5em;">
+      <button ng-show="(commentaries.length > 1) && !$root.showCommentary" class="hebrew button button-block button-stable" on-tap="$root.showCommentary = 'all'; $root.commentaryTitle = 'All Commentary'; updateSize()">
+        All Commentary
+      </button>
+
+      <div style="text-align: center" ng-repeat="author in commentaries">
+        <button ng-show="!$root.showCommentary" class="hebrew button button-block button-stable" on-tap="$root.showCommentary = '{{author.name}}'; $root.commentaryTitle = '{{author.name}}'; updateSize()">
+          {{author.name}}
+        </button>
+
+        <div style="text-align:center; margin-bottom: 20px" ng-show="$root.showCommentary == '{{author.name}}' || $root.showCommentary == 'all'">
+          <h4 ng-show="$root.showCommentary == 'all'" class="hebrew">
+            <u>{{author.name}}</u>
+          </h4>
+
+          <div style="margin: 1.5em" align="right" ng-repeat="commentary in author.commentary">
+            <div style="text-align: right !important;" align="right">
+              <h3 class="hebrew commentary" ng-bind-html ="commentary" ></h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div style="height: 20px">
+
+      </div>
+    </div>
+  </ion-content>
+</ion-bottom-sheet-view>
+
+

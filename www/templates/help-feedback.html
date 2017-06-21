@@ -1,0 +1,23 @@
+<ion-view class="imgBackground" view-title="Help">
+	<ion-nav-buttons side="left">
+		<button ng-controller="AppController" on-tap="openSideMenu()" class="button button-icon button-clear ion-navicon"></button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<button ng-controller="AppController" class="button button-icon button-clear ion-ios-home-outline" on-tap="goToSponsor()">
+    </button>
+	</ion-nav-buttons>
+	<ion-content padding="true">
+    <div class="semiCircle"></div>
+    <div class="shadowBox">
+			<div>
+        <p style="text-align:justify;word-wrap:break-word;">
+          For any inquiries or if you have any question/issues/suggestions for the Siyum Daily app<!--, or with the donation system--> you can contact the email below.
+        </p>
+
+        <center>
+          <a href="#" onclick="window.location='mailto:ateresshimon@gmail.com?subject=Siyum Daily suggestion';return false;" class="noHighlight">Email Administrator</a>
+        </center>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

@@ -1,0 +1,252 @@
+"use strict";
+
+angular.module('starter').controller('SettingsController', function($scope,  $rootScope,
+    $state,
+    $window,
+    $ionicPopup,
+    ionicTimePicker,
+    $ionicNavBarDelegate,
+    $cordovaLocalNotification,
+    UserService,
+    SettingsService,
+    SettingsFactory,
+    UserFactory,
+    $cordovaSQLite
+) {
+    $ionicNavBarDelegate.showBackButton(false);
+
+  var db = window.sqlitePlugin.openDatabase({name: 'siyumDaily.db', location: 'default'});
+  var selected = [];
+    $scope.currentAlertTime = '';
+    $scope.learningStatus = false;
+
+
+    /**
+     * Get the current User details.
+     **/
+    $scope.getPersonalDetails = function() {
+        getDetailsFromDb();
+        $scope.currentAlertTime = convert24to12(SettingsService.getAlertTime());
+
+        selected = UserService.getLearningSelection().split(",");
+
+        $scope.learningChoices = [
+          { text: "mishnayos", checked: selected.indexOf("mishnayos") > -1 },
+          { text: "tehillim", checked: selected.indexOf("tehillim") > -1 }
+        ];
+    };
+
+
+    function getDetailsFromDb(){
+
+      $cordovaSQLite.execute(db, "SELECT email, phone FROM user")
+        .then(function(res){
+
+            $scope.email =  res.rows.item(0).email + "";
+            $scope.phone = res.rows.item(0).phone + "";
+          });
+    }
+
+  $scope.checkedOrNot = function (asset, isChecked) {
+    if (isChecked) {
+      selected.push(asset);
+    }
+    else {
+      var index = selected.indexOf(asset);
+      if (index > -1) {
+        selected.splice(index, 1);
+      }
+    }
+    updateSelectionAcrossApp();
+  };
+
+  function updateSelectionAcrossApp(){
+    UserService.setLearningSelection(selected);
+
+    $rootScope.showMishna = selected.indexOf("mishnayos") > -1;
+    $rootScope.showTehillim = selected.indexOf("tehillim") > -1;
+  }
+
+    $scope.goToSplash = function () {
+      $state.go('app.splash');
+    };
+
+
+    /**
+     * User wants to delete his account :S
+     **/
+    $scope.deleteAccount = function() {
+        $scope.showConfirm();
+    };
+
+
+    $scope.showAlert = function(title, msg) {
+        var alertPopup = $ionicPopup.alert({
+            title: title,
+            template: msg
+        });
+    };
+
+    //Display confirmation of saved Settings.
+    $scope.showConfirm = function() {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Settings',
+            okText: 'Yes',
+            cancelText: 'No',
+            template: 'Do you really want to delete your account?'
+        });
+
+        confirmPopup.then(function(res) {
+            if (res) {
+              $cordovaSQLite.execute(db, "SELECT _id FROM user")
+                .then(function(result) {
+
+
+                  var userId = result.rows.item(0)._id;
+
+                  UserFactory.delete(userId).success(function (data) {
+                    var result = data.status;
+                    if (result === 'delete_success') {
+                      clearUserFromDb();
+                      $scope.showAlert("Settings", "You're account is now deleted!");
+                      $state.go('signin');
+                    }
+                  });
+                });
+            } else {
+                confirmPopup.close();
+            }
+        });
+    };
+
+    function clearUserFromDb(){
+      var query = "DELETE FROM user";
+
+      $cordovaSQLite.execute(db, query)
+        .then(function(){
+          });
+      $window.localStorage.setItem('isLogged',0);
+    }
+
+
+    $scope.setReminderTime = function(time) {
+        if (time === 'Cancel Reminder') {
+            //$scope.$emit('cancelReminder');
+          $scope.cancelReminder()
+        } else {
+            //$scope.$emit('setReminder', time);
+          $scope.createReminder(time)
+        }
+    }
+
+
+  /**
+   * Timepicker allows for ui selection of alert time
+   */
+  var timePicker = {
+    callback: function (val) {
+      if (typeof (val) === 'undefined') {
+
+      } else {
+        var selectedTime = new Date(val * 1000);
+        var time = selectedTime.getUTCHours() + ":" + selectedTime.getUTCMinutes();
+        //$scope.showAlert("your time", time);
+        $scope.createReminder(time);
+      }
+    },
+    inputTime: 48600,
+    format: 12,
+    step: 15,
+    closeLabel: "Cancel"
+  };
+
+  $scope.openTimePicker = function () {
+    ionicTimePicker.openTimePicker(timePicker);
+  };
+
+  //set ui to reflect time
+  function updateUIAlarmTime(time){
+    SettingsService.setAlertTime(time);
+
+    time = convert24to12(time);
+    $scope.currentAlertTime = time;
+  }
+
+  //converts time form 24 to 12.
+  //    ex 13:00 -> 1:00 pm
+  function convert24to12(time){
+    var timeFrags = time.split(':');
+    var hour = parseInt(timeFrags[0]);
+    var minute = parseInt(timeFrags[1]);
+
+
+    var amPm = (hour < 12)? " am":" pm";
+    hour = ((hour % 12 == 0)? 12: hour % 12);
+    minute = (minute == 0)? "00": minute;
+
+    return hour + ":" + minute + amPm
+  }
+
+  /**
+   * Create a new Reminder notification.
+   */
+   $scope.createReminder = function(time) {
+      var alarmTime = new Date();
+
+      var parseTime = time.split(':');
+      var hour = parseTime[0];
+      var minute = parseTime[1];
+
+     updateUIAlarmTime(time);
+
+
+      alarmTime.setHours(parseInt(hour));
+      alarmTime.setMinutes(parseInt(minute));
+      alarmTime.setSeconds(0);
+
+     var snoozeTime = new Date();
+     snoozeTime.setTime(alarmTime.getTime() + (4*60*60*1000));
+     SettingsService.setSnoozeTime(snoozeTime.getHours() + ":" + snoozeTime.getMinutes() + ":" + "00");
+
+      $cordovaLocalNotification.schedule({
+          id: 0,
+          firstAt: alarmTime,
+          message: "Learn your daily Mishna/Tehillim and be part of the collective siyum!",
+          title: "Siyum Daily",
+          every: "day",
+          autoCancel: false,
+          sound: 'res://platform_default'
+      }).then(function() {
+          $scope.showAlert("Daily Reminder", "Your daily reminder is now set!");
+      });
+
+
+     $cordovaLocalNotification.schedule({
+       id: 1,
+       firstAt: snoozeTime,
+       message: "Seems you may have forgotten to learn your daily Mishna/Tehillim! We need you to learn your daily limud to finish collectively",
+       title: "Siyum Daily Reminder",
+       every: "day",
+       autoCancel: false,
+       sound: 'res://platform_default'
+     })
+
+   };
+
+  $scope.cancelReminder = function() {
+    $cordovaLocalNotification.cancelAll();
+    cordova.plugins.notification.local.cancelAll(function() {
+      $scope.showAlert("Mishna Reminder", "Your daily reminder is now canceled!");
+    }, this);
+
+    $scope.currentAlertTime = "";
+    SettingsService.setAlertTime("");
+  };
+
+
+//When the user load the Settings view.
+  $scope.$on('$ionicView.beforeEnter', function() {
+      $scope.getPersonalDetails();
+
+  });
+});
