@@ -1,4 +1,4 @@
-My Myshna
+Siyum Daily
 =====================
 
-Ionic mobile application build for iOS + Android. Made for the Lezam company by Koorys LTD.
+Ionic mobile application build for iOS + Android. Made for the Lezam company by Yonah Karp
