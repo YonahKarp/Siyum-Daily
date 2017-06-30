@@ -1,6 +1,7 @@
 "use strict";
 
-angular.module('starter').controller('SettingsController', function($scope,  $rootScope,
+angular.module('starter').controller('SettingsController', function(
+    $scope,  $rootScope,
     $state,
     $window,
     $ionicPopup,
@@ -9,9 +10,9 @@ angular.module('starter').controller('SettingsController', function($scope,  $ro
     $cordovaLocalNotification,
     UserService,
     SettingsService,
-    SettingsFactory,
     UserFactory,
-    $cordovaSQLite
+    $cordovaSQLite,
+    NotificationService
 ) {
     $ionicNavBarDelegate.showBackButton(false);
 
@@ -101,7 +102,6 @@ angular.module('starter').controller('SettingsController', function($scope,  $ro
               $cordovaSQLite.execute(db, "SELECT _id FROM user")
                 .then(function(result) {
 
-
                   var userId = result.rows.item(0)._id;
 
                   UserFactory.delete(userId).success(function (data) {
@@ -166,8 +166,6 @@ angular.module('starter').controller('SettingsController', function($scope,  $ro
 
   //set ui to reflect time
   function updateUIAlarmTime(time){
-    SettingsService.setAlertTime(time);
-
     time = convert24to12(time);
     $scope.currentAlertTime = time;
   }
@@ -191,46 +189,9 @@ angular.module('starter').controller('SettingsController', function($scope,  $ro
    * Create a new Reminder notification.
    */
    $scope.createReminder = function(time) {
-      var alarmTime = new Date();
-
-      var parseTime = time.split(':');
-      var hour = parseTime[0];
-      var minute = parseTime[1];
-
+     NotificationService.createReminder(time);
+     $scope.showAlert("Daily Reminder", "Your daily reminder is now set!");
      updateUIAlarmTime(time);
-
-
-      alarmTime.setHours(parseInt(hour));
-      alarmTime.setMinutes(parseInt(minute));
-      alarmTime.setSeconds(0);
-
-     var snoozeTime = new Date();
-     snoozeTime.setTime(alarmTime.getTime() + (4*60*60*1000));
-     SettingsService.setSnoozeTime(snoozeTime.getHours() + ":" + snoozeTime.getMinutes() + ":" + "00");
-
-      $cordovaLocalNotification.schedule({
-          id: 0,
-          firstAt: alarmTime,
-          message: "Learn your daily Mishna/Tehillim and be part of the collective siyum!",
-          title: "Siyum Daily",
-          every: "day",
-          autoCancel: false,
-          sound: 'res://platform_default'
-      }).then(function() {
-          $scope.showAlert("Daily Reminder", "Your daily reminder is now set!");
-      });
-
-
-     $cordovaLocalNotification.schedule({
-       id: 1,
-       firstAt: snoozeTime,
-       message: "Seems you may have forgotten to learn your daily Mishna/Tehillim! We need you to learn your daily limud to finish collectively",
-       title: "Siyum Daily Reminder",
-       every: "day",
-       autoCancel: false,
-       sound: 'res://platform_default'
-     })
-
    };
 
   $scope.cancelReminder = function() {

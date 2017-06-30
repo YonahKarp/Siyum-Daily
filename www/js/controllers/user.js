@@ -146,7 +146,8 @@ angular.module('starter').controller('UserController', function (
 
           storeUserSettingsLocally(data.learning_selection, data.alert_time);
 
-          recreateReminders(data.alert_time);
+          if(data.alert_time != "")
+            recreateReminders(data.alert_time);
           UserService.setJwtToken(jwtToken);
           createReminder();
         } else {

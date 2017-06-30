@@ -10,12 +10,10 @@ angular.module('starter').controller('MishnaController', function (
   $ionicSlideBoxDelegate,
   $ionicSideMenuDelegate,
   $ionicScrollDelegate,
-  $cordovaLocalNotification,
   MishnaFactory,
   UserFactory,
   AdminFactory,
-  SettingsFactory,
-  //SponsorFactory,
+  NotificationService,
   SettingsService,
   UserService,
   $cordovaSQLite
@@ -358,43 +356,7 @@ angular.module('starter').controller('MishnaController', function (
    * Update nudge-reminder time when user completes mishna
    */
   function updateReminder() {
-
-    var today = new Date();
-    var alertDate = new Date();
-    alertDate.setDate(today.getDate()+7);
-    alertDate.setHours(12);
-    alertDate.setMinutes(30);
-    alertDate.setSeconds(0);
-    alertDate = new Date(alertDate);
-
-    $cordovaLocalNotification.schedule({
-      id: 2,
-      firstAt: alertDate,
-      message: "We haven't seen you in a while. Help make a daily siyum in Mishna/Tehillim!",
-      title: "Siyum Daily Reminder",
-      autoCancel: false,
-      sound: 'res://platform_default'
-    });
-
-
-    var snoozeTime = new Date();
-
-    var snoozeHrMin = SettingsService.getSnoozeTime().split(":");
-    snoozeTime.setHours(snoozeHrMin[0],snoozeHrMin[1],0);
-
-
-    snoozeTime.setDate(snoozeTime.getDate() + 1); //push off to tomorrow bc we completed
-
-    $cordovaLocalNotification.schedule({
-      id: 1,
-      firstAt: snoozeTime,
-      message: "Seems you may have forgotten to learn your daily Mishna/Tehillim! We need you to learn your daily limud to finish collectively",
-      title: "Siyum Daily Reminder",
-      every: "day",
-      autoCancel: false,
-      sound: 'res://platform_default'
-    });
-
+    NotificationService.updateReminder()
   }
 
   /**

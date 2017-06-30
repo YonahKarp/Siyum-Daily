@@ -51,19 +51,6 @@ angular.module('starter').factory('SponsorFactory', function ($http) {
         'method=' + 'deleteMessage'+
         '&id=' + id
       );
-    },
-
-
-    setNewMessage: function (email, option, amount, msg) {
-      return $http.post(
-        baseUrl +
-        'method=' + 'setMessage' +
-        '&email=' + email +
-        '&option=' + option +
-        '&amount=' + amount +
-        '&message=' + encodeURIComponent(msg)
-
-      );
     }
   };
 });

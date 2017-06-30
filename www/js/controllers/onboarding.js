@@ -14,7 +14,7 @@ angular.module('starter').controller('OnboardingController', function (
   $cordovaLocalNotification,
   $ionicSideMenuDelegate,
   $ionicHistory,
-  $cordovaSQLite
+  NotificationService
 ) {
   $ionicNavBarDelegate.showBackButton(false);
 
@@ -51,7 +51,6 @@ angular.module('starter').controller('OnboardingController', function (
         selected.splice(index, 1);
       }
     }
-
   };
 
   /**
@@ -82,44 +81,8 @@ angular.module('starter').controller('OnboardingController', function (
    * Create a new Reminder notification.
    */
   $scope.createReminder = function(time) {
-
-    var alarmTime = new Date();
-    var snoozeTime = new Date();
-    var parseTime = time.split(':');
-    var hour = parseTime[0];
-    var minute = parseTime[1];
-
+    NotificationService.createReminder(time);
     updateUIAlarmTime(time);
-
-    alarmTime.setHours(parseInt(hour));
-    alarmTime.setMinutes(parseInt(minute));
-    alarmTime.setSeconds(0);
-
-    snoozeTime.setTime(alarmTime.getTime() + (4*60*60*1000));
-
-    SettingsService.setSnoozeTime(snoozeTime);
-
-    $cordovaLocalNotification.schedule({
-      id: 0,
-      firstAt: alarmTime,
-      message: "Learn your daily Mishna/Tehillim!",
-      title: "Siyum Daily Reminder",
-      every: "day",
-      autoCancel: false,
-      sound: 'res://platform_default'
-    }).then(function() {
-      $scope.showAlert("Daily Reminder", "Your daily reminder is now set!");
-    });
-
-    $cordovaLocalNotification.schedule({
-      id: 1,
-      firstAt: snoozeTime,
-      message: "Seems you may have forgotten to learn your daily Mishna/Tehillim!",
-      title: "Siyum Daily Reminder",
-      every: "day",
-      autoCancel: false,
-      sound: 'res://platform_default'
-    })
   };
 
   //set ui to reflect time
@@ -135,7 +98,6 @@ angular.module('starter').controller('OnboardingController', function (
     var timeFrags = time.split(':');
     var hour = parseInt(timeFrags[0]);
     var minute = parseInt(timeFrags[1]);
-
 
     var amPm = (hour < 12)? " am":" pm";
     hour = ((hour % 12 == 0)? 12: hour % 12);
@@ -158,8 +120,4 @@ angular.module('starter').controller('OnboardingController', function (
 
     $state.go('app.splash')
   };
-
-  $scope.$on('$ionicView.beforeEnter', function () {
-    //$scope.getStaticAboutPage();
-  });
 });

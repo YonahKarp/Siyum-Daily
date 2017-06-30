@@ -5,8 +5,6 @@
 
 angular.module('starter').factory('TehillimFactory', function ($http) {
   var baseUrl = 'http://104.131.96.199/mishna-api/Tehillim.class.php?';
-  //var baseUrl = 'http://192.168.0.13/xampp/siyum-daily-mishna-api/Tehillim.class.php?';
-
 
   return {
     randomTehillim: function (userId) {
@@ -14,22 +12,6 @@ angular.module('starter').factory('TehillimFactory', function ($http) {
         baseUrl +
         'method=' + 'random'
         + '&userId=' + userId
-      );
-    },
-
-    getTehillim: function (tehillimId) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'get' +
-        '&tehillimId=' + tehillimId
-      );
-    },
-
-    regrabTehillim: function (userId) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'regrab' +
-        '&userId=' + userId
       );
     },
 

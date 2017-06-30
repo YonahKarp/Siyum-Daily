@@ -7,7 +7,8 @@ angular.module('starter').controller('SponsorController', function (
   $ionicHistory,
   SponsorFactory,
   UserService,
-  $cordovaSQLite
+  $cordovaSQLite,
+  NotificationService
 ) {
   $ionicHistory.nextViewOptions({
     disableBack: true
@@ -85,6 +86,8 @@ angular.module('starter').controller('SponsorController', function (
   };
 
   function getSponsorsFromServer() {
+
+    //NotificationService.testing();
 
     $scope.messagesInHonor = [];
     $scope.messagesInMemory = [];

@@ -33,81 +33,10 @@ angular.module('starter').factory('UserFactory', function ($http) {
       );
     },
 
-    getUserInformations: function (id) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getUser' +
-        '&data=' + id
-      );
-    },
-
-    getLastLoginDate: function (id) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getLastLogin' +
-        '&data=' + id
-      );
-    },
-
-    getToggleStatus: function (id) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getToggle' +
-        '&data=' + id
-      );
-    },
-
-    getLastAssignedMishnaDate: function (id) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getLastAssignedMishna' +
-        '&data=' + id
-      );
-    },
-
-    getLastCompletedMishnaDate: function (id) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getLastCompletedMishna' +
-        '&data=' + id
-      );
-    },
-
     delete: function (id) {
       return $http.post(
         baseUrl +
         'method=' + 'delete' +
-        '&data=' + id
-      );
-    },
-
-    getInactive: function () {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getInactive'
-      );
-    },
-
-    setAccountStatusToInactive: function (id) {
-      return $http.post(
-        baseUrl +
-        'method=' + 'inactive' +
-        '&data=' + id
-      );
-    },
-
-    getAccountStatus: function (id) {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getAccountStatus' +
-        '&data=' + id
-      );
-    },
-
-    resetAccount: function (id) {
-      return $http.post(
-        baseUrl +
-        'method=' + 'reset' +
         '&data=' + id
       );
     }

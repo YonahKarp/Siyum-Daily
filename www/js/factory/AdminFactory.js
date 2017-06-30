@@ -6,12 +6,6 @@ angular.module('starter').factory('AdminFactory', function ($http) {
 
 
   return {
-    getInactivePeriod: function () {
-      return $http.get(
-        baseUrl +
-        'method=' + 'getInactive'
-      );
-    },
 
     getCyclePeriod: function () {
       return $http.get(

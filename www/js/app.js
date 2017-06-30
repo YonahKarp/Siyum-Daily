@@ -76,14 +76,6 @@ angular.module('starter', [
                 }
             })
 
-            // .state('app.nomishna', {
-            //     url: '/mishna',
-            //     views: {
-            //         'menuContent': {
-            //             templateUrl: 'templates/nomishna.html'
-            //         }
-            //     }
-            // })
 
 
           .state('app.tehillim', {
@@ -136,15 +128,7 @@ angular.module('starter', [
             }
           })
 
-            // .state('app.location', {
-            //     url: '/location',
-            //     views: {
-            //         'menuContent': {
-            //             templateUrl: 'templates/location.html',
-            //             controller: 'LocationController'
-            //         }
-            //     }
-            // })
+
 
             .state('app.share', {
                 url: '/share',
@@ -177,16 +161,6 @@ angular.module('starter', [
                 }
             })
 
-          /*
-            .state('app.inactive', {
-                url: '/inactive',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/inactive.html',
-                        controller: "InactiveController"
-                    }
-                }
-            })*/
 
           .state('app.onboarding', {
             url: '/onboarding',
