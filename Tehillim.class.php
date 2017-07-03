@@ -60,9 +60,10 @@ class Tehillim
                 $val = $this->actionMarkTehillimAsTaken($tehillimId);
 
                 if($val) {
-                    //echo json_encode(array("tehillim_id" => $tehillimId, "tehillim_content" => $tehillimContent));
-                    echo json_encode(array("tehillim_id" => $tehillimId));
-                    //, "hebrew" => $hebrew, "english" => $english, "chapter" => $chapter));
+                    echo json_encode(array(
+                                            "tehillim_id" => $tehillimId,
+                                            "learning_id" => $tehillimId
+                                           ));
 
                 } else {
                     echo json_encode(array("status" => "random_tehillim_failure"));

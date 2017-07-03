@@ -96,9 +96,10 @@ class Mishna
           $val = $this->actionMarkMishnaAsTaken($mishnaId);
 
         if($val) {
-            echo json_encode(array("mishna_id" => $mishnaId));
-            /*, "hebrew" => $hebrew, "english" => $english,
-                "mesechta" => $mesechta, "chapter" => $chapter, "mishna" => $mishna));*/
+            echo json_encode(array(
+                            "mishna_id" => $mishnaId,
+                            "learning_id" => $mishnaId
+            ));
 
         } else {
             echo json_encode(array("status" => "random_mishna_failure"));
