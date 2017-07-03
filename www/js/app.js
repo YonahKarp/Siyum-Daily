@@ -66,12 +66,13 @@ angular.module('starter', [
                 }
             })
 
+
             .state('app.mymishna', {
                 url: '/learning',
                 views: {
                     'menuContent': {
                         templateUrl: 'templates/learning.html',
-                        controller: 'MishnaController'
+                        controller: 'MishnaChildController'
                     }
                 }
             })
@@ -83,7 +84,7 @@ angular.module('starter', [
             views: {
               'menuContent': {
                 templateUrl: 'templates/learning.html',
-                controller: 'TehillimController'
+                controller: 'TehillimChildController'
               }
             }
           })

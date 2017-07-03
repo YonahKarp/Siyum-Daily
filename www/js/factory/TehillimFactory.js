@@ -7,7 +7,7 @@ angular.module('starter').factory('TehillimFactory', function ($http) {
   var baseUrl = 'http://104.131.96.199/mishna-api/Tehillim.class.php?';
 
   return {
-    randomTehillim: function (userId) {
+    getRandomLearning: function (userId) {
       return $http.get(
         baseUrl +
         'method=' + 'random'
@@ -15,7 +15,7 @@ angular.module('starter').factory('TehillimFactory', function ($http) {
       );
     },
 
-    completeTehillim: function (userId, tehillimId) {
+    completeLearning: function (userId, tehillimId) {
       return $http.post(
         baseUrl +
         'method=' + 'complete' +
@@ -33,7 +33,7 @@ angular.module('starter').factory('TehillimFactory', function ($http) {
     },
 
 
-    setTehillimAssignDate: function (id) {
+    setAssignDate: function (id) {
       return $http.post(
         baseUrl +
         'method=' + 'assignTehillimDate' +

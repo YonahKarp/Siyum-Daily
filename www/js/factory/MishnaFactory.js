@@ -6,7 +6,7 @@ angular.module('starter').factory('MishnaFactory', function (
   var baseUrl = 'http://104.131.96.199/mishna-api/Mishna.class.php?';
 
   return {
-    randomMishna: function (userId) {
+    getRandomLearning: function (userId) {
       return $http.get(
         baseUrl +
         'method=' + 'random'
@@ -14,13 +14,12 @@ angular.module('starter').factory('MishnaFactory', function (
       );
     },
 
-    completeMishna: function (userId, mishnaId) {
+    completeLearning: function (userId, mishnaId) {
       return $http.post(
         baseUrl +
         'method=' + 'complete' +
         '&userId=' + userId +
         '&mishnaId=' + mishnaId
-        //+ '&mishnaFrom=' + mishnaFrom
       );
     },
 
@@ -32,7 +31,7 @@ angular.module('starter').factory('MishnaFactory', function (
       )
     },
 
-    setMishnaAssignDate: function (id) {
+    setAssignDate: function (id) {
       return $http.post(
         baseUrl +
         'method=' + 'assignMishnaDate' +
