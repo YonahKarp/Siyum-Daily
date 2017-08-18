@@ -133,7 +133,6 @@ angular.module('starter').controller('UserController', function (
 
         if (result === 'login_success') {
           var userId = data.userId;
-          var jwtToken = data.jwtToken;
 
 
           $scope.spin = false;
@@ -142,7 +141,6 @@ angular.module('starter').controller('UserController', function (
           storeUserInDB(userId, email, data.phone, data.learning_selection, data.alert_time,
             data.last_completed_mishna_date, data.last_completed_tehillim_date,
             data.mishna_id, data.tehillim_id, data.next_cycle_date, data.totalMishna, data.totalTehillim);
-
 
           storeUserSettingsLocally(data.learning_selection, data.alert_time);
 
@@ -184,7 +182,7 @@ angular.module('starter').controller('UserController', function (
   };
 
   /**
-   * Create a new Reminder for 4 days from now
+   * Create a new Reminder for 7 days from now
    */
   function createReminder() {
 
@@ -226,7 +224,7 @@ angular.module('starter').controller('UserController', function (
       every: "day",
       autoCancel: false,
       sound: 'res://platform_default'
-    })
+    });
 
     $cordovaLocalNotification.schedule({
       id: 1,
@@ -285,11 +283,21 @@ angular.module('starter').controller('UserController', function (
   }
 
   function storeUserSettingsLocally(learning,time) {
+
     SettingsService.setAlertTime(time);
+
+    var alarmTime = new Date();
+    var snoozeTime = new Date();
+    var timePieces = time.split(':');
+    alarmTime.setHours (timePieces[0],timePieces[1], 0);
+    snoozeTime.setTime(alarmTime.getTime() + (4*60*60*1000));
+
+    SettingsService.setSnoozeTime(snoozeTime);
+
     UserService.setLearningSelection(learning);
+
     $rootScope.showMishna = learning.indexOf("mishnayos") > -1;
     $rootScope.showTehillim = learning.indexOf("tehillim") > -1;
-
   }
 
   function clearUserFromDb(){

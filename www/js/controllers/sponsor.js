@@ -75,8 +75,7 @@ angular.module('starter').controller('SponsorController', function (
           getSponsorsFromServer();
 
         }else {
-          getSponsorsFromStorage()
-
+          getSponsorsFromStorage();
         }
       });
   });
@@ -86,8 +85,6 @@ angular.module('starter').controller('SponsorController', function (
   };
 
   function getSponsorsFromServer() {
-
-    //NotificationService.testing();
 
     $scope.messagesInHonor = [];
     $scope.messagesInMemory = [];
@@ -99,9 +96,7 @@ angular.module('starter').controller('SponsorController', function (
       $cordovaSQLite.execute(db, "DELETE FROM Sponsor");
 
       data.forEach(function(sponsor){
-        $cordovaSQLite.execute(db, "INSERT INTO Sponsor VALUES('"+sponsor.message+"')").then(function () {
-
-        });
+        $cordovaSQLite.execute(db, "INSERT INTO Sponsor(message) VALUES('"+sponsor.message.replace("'","''")+"')").then(function () {});
 
         if(sponsor.message.indexOf("In honor") === 0)
           $scope.messagesInHonor.push(sponsor.message.substring(12));//remove "In honor of " (12 letters long)
@@ -119,7 +114,6 @@ angular.module('starter').controller('SponsorController', function (
   function getSponsorsFromStorage() {
     $cordovaSQLite.execute(db, "SELECT message FROM Sponsor").then(function (res) {
 
-
       for (var i = 0; i < res.rows.length; i++) {
         var msg = (res.rows.item(i).message);
 
@@ -130,7 +124,8 @@ angular.module('starter').controller('SponsorController', function (
         if(msg.indexOf("As a") === 0)
           $scope.messagesAsZchus.push(msg.substring(14));//remove "As a zcus for " (14 letters long)
       }
-    })
+    });
+    $scope.$apply();
   }
 
 });

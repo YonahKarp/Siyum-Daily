@@ -43,6 +43,21 @@ angular.module('starter.controllers').service('NotificationService', function(
 
    this.updateAlert(NUDGE_ALERT, alertDate);
 
+    var time = SettingsService.getAlertTime();
+
+    if(time == null || !time)
+      return;
+
+    var alarmTime = new Date();
+    var parseTime = time.split(':');
+    var hour = parseTime[0];
+    var minute = parseTime[1];
+
+    alarmTime.setHours(parseInt(hour), parseInt(minute), 0);
+    alarmTime.setDate(alarmTime.getDate() + 1);
+
+    this.setAlert(DAILY_ALERT, alarmTime);
+
     var snoozeHrMin = SettingsService.getSnoozeTime().split(":");
     if(snoozeHrMin.length < 2)
       return;
@@ -50,7 +65,7 @@ angular.module('starter.controllers').service('NotificationService', function(
     snoozeTime.setHours(snoozeHrMin[0],snoozeHrMin[1],0);
     snoozeTime.setDate(snoozeTime.getDate() + 1); //push off to tomorrow bc we completed
 
-    this.setAlert(1, snoozeTime);
+    this.setAlert(SNOOZE_ALERT, snoozeTime);
   };
 
   this.setAlert = function (id, alarmTime) {
@@ -77,6 +92,7 @@ angular.module('starter.controllers').service('NotificationService', function(
   };
 
 
+  //message factory
   function getMessage(id) {
     switch (id) {
       case DAILY_ALERT:

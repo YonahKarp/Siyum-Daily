@@ -619,6 +619,25 @@ table tr:nth-child(even){
   text-align: left;
 }
 
+.outerBar{
+  border-radius: 100px;
+  border: 1px solid;
+  width: 100%;
+  margin-bottom: 5px;
+
+}
+
+.pointsBar{
+  background-color: rgba(40, 100, 160, 0.7) !important;
+  border-radius: 20px;
+  height: 20px;
+}
+
+.pointsBar p{
+  color: white !important;
+  text-align: center;
+}
+
 
 
 

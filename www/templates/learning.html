@@ -20,8 +20,7 @@
 
     <div class="nextCycle" ng-show="hebrew || hebrewContext">
       <p ng-show="hebrew" class="text-center">
-        This is your {{table}}
-        <br>Learn <strong>just one</strong> and collectively we will make a siyum daily.
+        Learn <strong>just one</strong> and collectively we will make a siyum daily.
       </p>
 
       <p ng-show="!hebrew" class="text-center">
@@ -98,26 +97,6 @@
       </div>
     </div>
   </div>
-
-  <!--ion-footer-bar class="bar-light">
-    <div  class="center" style="margin-top: 0.5em">
-      <button ng-show="hebrew || hebrewContext"  class="button button-small  button-balanced" style="height: 3em; margin-right: 0.5em;" on-tap="getContext(-1)">
-        <i class="icon ion-chevron-left"></i>
-      </button>
-
-      <button  ng-show="hebrew" ng-disabled="disableCompleteButton" class="button button-outline" ng-class="{'button-balanced': !completed, 'button-light': completed}" style="background-color: #4b8bf4 !important;" on-tap="markAsCompleted()">
-        Mark as completed
-      </button>
-
-      <button ng-show="hebrewContext && !hebrew" class="button button-block button-balanced" style="background-color: #4b8bf4 !important;" on-tap="backToLearning()">
-        Back to my {{table}}
-      </button>
-
-      <button  ng-show="hebrew || hebrewContext" class="button button-small button-balanced" style="height: 3em; margin-left: 0.5em;" on-tap="getContext(1)">
-        <i class="icon ion-chevron-right"></i>
-      </button>
-    </div>
-  </ion-footer-bar-->
 
 </ion-view>
 

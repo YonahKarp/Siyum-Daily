@@ -13,12 +13,23 @@
     <div class="shadowBox">
       <div>
 
+
         <h4><strong> Your Learning:</strong></h4>
+
+
+        <div class="outerBar">
+          <div class="pointsBar" style="width: {{percentProgress}}%;">
+            <p> {{percentProgress}}<span ng-show="percentProgress > 15">%</span></p>
+          </div>
+        </div>
 
         <ul>
           <li>{{yourMishnaTotal}} total משניות</li>
           <li>{{yourTehillimTotal}} total פרקים תהלים</li>
         </ul>
+
+        <p style="text-align: center; color: white; margin-top: 15px"> Reach 100 and you can post a sponsor message for free! (stays for one week) </p>
+
 
 
 
@@ -30,14 +41,12 @@
         </ul>
 
 
-
-
-
         <h4 style="margin-top: 2em"><strong>Siyum Daily Total Accomplishments:</strong></h4>
 
         <ul class="accompList">
-          <li >{{mishnaCycle}} סיומי משניות</li>
-          <li>{{tehillimCycle}} סיומי תהלים</li>
+
+          <li ng-show="mishnaCycle > 0">{{mishnaCycle}} סיומי משניות</li>
+          <li ng-show="tehillimCycle > 0">{{tehillimCycle}} סיומי תהלים</li>
 
           <li>{{mishnaTotal}} משניות</li>
           <li>{{tehillimTotal}} תהלים</li>

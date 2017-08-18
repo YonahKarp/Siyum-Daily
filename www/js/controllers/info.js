@@ -27,8 +27,7 @@ angular.module('starter').controller('InfoController', function (
 
       $scope.newMishnayos = data.lastWeekMishnayos;
       $scope.newTehillim = data.lastWeekTehillim;
-
-
+      $scope.percentProgress = 0;
 
     });
 
@@ -36,16 +35,25 @@ angular.module('starter').controller('InfoController', function (
       .then(function(res){
         $scope.yourMishnaTotal = res.rows.item(0).total_mishna_completed;
         $scope.yourTehillimTotal = res.rows.item(0).total_tehillim_completed;
-      }, function (err) {
-      $scope.showAlert("error!", JSON.stringify(err));
-    });
-
+      });
 
     var today = new Date();
     var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
     $scope.sunday = (d.getMonth()+1)  + "/" + d.getDate() + "/" + d.getFullYear();
 
 
-
   });
+
+  $scope.$on('$ionicView.enter', function () {
+    $scope.percentProgress = 0;
+
+    var updateBar = setInterval(function(){
+      $scope.percentProgress++;
+      if($scope.percentProgress >= $scope.yourMishnaTotal + $scope.yourTehillimTotal || $scope.percentProgress >= 100)
+        clearInterval(updateBar);
+      $scope.$apply();
+    },20);
+  });
+
+
 });

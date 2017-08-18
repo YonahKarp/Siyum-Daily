@@ -25,11 +25,13 @@ angular.module('starter').controller('TehillimChildController', function (
 
   var db = window.sqlitePlugin.openDatabase({name: 'siyumDaily.db', location: 'default'});
 
-  $scope.viewtitle = '<span class="view-title">' + ' תהלים daily' + '</span><br><span class="view-subtitle"> - ' + 'Yeshiva Ateres Shimon' + '</span>';
+  $scope.viewtitle = '<span class="view-title">' + ' תהלים daily' + '</span>';
   $scope.learningView = "tehillimView";
 
 
   $scope.table ='תהלים';
+  $rootScope.table = 'תהלים';
+
   $scope.tableName = "tehillim";
   $scope.otherTable = "mishna";
   $scope.factory = TehillimFactory;

@@ -97,12 +97,24 @@ angular.module('starter').controller('LearningController', function (
       $scope.showCompleteTip += 1;
     }
 
+    $rootScope.percentProgress = 0;
+    $cordovaSQLite.execute(db, "SELECT total_mishna_completed, total_tehillim_completed FROM User").then(function(res){
+        $scope.max = res.rows.item(0).total_mishna_completed + res.rows.item(0).total_tehillim_completed;
+    });
+
+    var updateBar = setInterval(function(){
+      $rootScope.percentProgress++;
+      if($rootScope.percentProgress > $scope.max || $rootScope.percentProgress >= 100)
+        clearInterval(updateBar);
+      $scope.$apply();
+    },20);
+
+
+
     var confirmPopup = $ionicPopup.confirm({
       title: 'Mazel Tov!',
-      template:'<img class="center" src="img/mishna-trophy.png" width="150" height="150">' +
-      '<p>We will give you another '+ $scope.tableName+' at the next cycle period, please don\'t forget the completed button in order to stay as an active user!</p>',
+      templateUrl: "templates/progressBar.html",
       cancelText: "undo"
-
     });
 
     confirmPopup.then(function (completed) {
