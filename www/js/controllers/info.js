@@ -5,7 +5,10 @@ angular.module('starter').controller('InfoController', function (
   $state,
   $timeout,
   AdminFactory,
+  SponsorFactory,
+  UserService,
   $cordovaSQLite,
+  $ionicPopup,
   $ionicHistory
 ) {
   $ionicHistory.nextViewOptions({
@@ -44,15 +47,45 @@ angular.module('starter').controller('InfoController', function (
 
   });
 
-  $scope.$on('$ionicView.enter', function () {
-    $scope.percentProgress = 0;
+  $scope.showSponsorMessageModal = function(){
 
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Free Sponsor Message!',
+      templateUrl: "templates/sponsorMessageModal.html",
+      cancelText: "cancel"
+    });
+
+    //if($rootScope.percentProgress >= 100)
+      confirmPopup.then(function (completed) {
+        if (completed) {
+          $cordovaSQLite.execute(db, "SELECT email FROM user")
+            .then(function(res){
+              var email = res.rows.item(0).email;
+              var message = document.getElementById("sponsorMessage").value;
+              var type = document.getElementById("sponsorType").value + " ";
+
+              $scope.showAlert(email, type + message);
+
+              SponsorFactory.postFreeMessage(email, type + message);
+              UserService.setRewardsSpent(UserService.getRewardsSpent()+1);
+              updateProgressBar()
+            });
+        }
+      })
+  };
+
+  function updateProgressBar(){
+    $scope.percentProgress = 0;
     var updateBar = setInterval(function(){
       $scope.percentProgress++;
-      if($scope.percentProgress >= $scope.yourMishnaTotal + $scope.yourTehillimTotal || $scope.percentProgress >= 100)
+      if($scope.percentProgress >= ($scope.yourMishnaTotal + $scope.yourTehillimTotal) - 100*UserService.getRewardsSpent() || $scope.percentProgress >= 100)
         clearInterval(updateBar);
       $scope.$apply();
     },20);
+  }
+
+  $scope.$on('$ionicView.enter', function () {
+    updateProgressBar();
   });
 
 

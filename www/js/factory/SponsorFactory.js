@@ -13,6 +13,18 @@ angular.module('starter').factory('SponsorFactory', function ($http) {
       );
     },
 
+    postFreeMessage: function (email, message) {
+      return $http.get(
+        'http://104.131.96.199/mishna-api/Stripe.class.php?' +
+        'method=contact' +
+          '&email=' + email +
+          '&option=free100' +
+          '&amount=0'+
+          '&message='+message
+      );
+    },
+
+
     getPublishedSponsorMessages: function () {
       return $http.get(
         baseUrl +

@@ -209,5 +209,7 @@ angular.module('starter').controller('SettingsController', function(
   $scope.$on('$ionicView.beforeEnter', function() {
       $scope.getPersonalDetails();
 
+      $scope.showAlert("test",SettingsService.getAlertTime().split(":"))
+
   });
 });

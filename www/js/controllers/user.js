@@ -111,6 +111,9 @@ angular.module('starter').controller('UserController', function (
           data.last_completed_mishna_date, data.last_completed_tehillim_date,
           data.mishna_id, data.tehillim_id, data.next_cycle_date, data.totalMishna, data.totalTehillim);
 
+        UserService.setRewardsSpent(0);
+
+
         createReminder();
 
         $scope.spin = false;
@@ -142,7 +145,8 @@ angular.module('starter').controller('UserController', function (
             data.last_completed_mishna_date, data.last_completed_tehillim_date,
             data.mishna_id, data.tehillim_id, data.next_cycle_date, data.totalMishna, data.totalTehillim);
 
-          storeUserSettingsLocally(data.learning_selection, data.alert_time);
+
+          storeUserSettingsLocally(data.learning_selection, data.alert_time, +data.totalMishna + +data.totalTehillim);
 
           if(data.alert_time != "")
             recreateReminders(data.alert_time);
@@ -214,7 +218,7 @@ angular.module('starter').controller('UserController', function (
     alarmTime.setHours (timePieces[0],timePieces[1], 0); // you can pass Number or String, it doesn't matter
 
     snoozeTime.setTime(alarmTime.getTime() + (4*60*60*1000));
-    SettingsService.setSnoozeTime(snoozeTime);
+    SettingsService.setSnoozeTime(snoozeTime.toLocaleTimeString('en-US', { hour12: false }));
 
     $cordovaLocalNotification.schedule({
       id: 0,
@@ -282,8 +286,9 @@ angular.module('starter').controller('UserController', function (
 
   }
 
-  function storeUserSettingsLocally(learning,time) {
+  function storeUserSettingsLocally(learning,time, totalLearning) {
 
+    UserService.setRewardsSpent(Math.floor(totalLearning/100));
     SettingsService.setAlertTime(time);
 
     var alarmTime = new Date();
@@ -292,7 +297,7 @@ angular.module('starter').controller('UserController', function (
     alarmTime.setHours (timePieces[0],timePieces[1], 0);
     snoozeTime.setTime(alarmTime.getTime() + (4*60*60*1000));
 
-    SettingsService.setSnoozeTime(snoozeTime);
+    SettingsService.setSnoozeTime(snoozeTime.toLocaleTimeString('en-US', { hour12: false }));
 
     UserService.setLearningSelection(learning);
 

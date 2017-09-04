@@ -8,6 +8,9 @@
 </div>
 
 <p style="text-align: center; margin-top: 15px"> Reach 100 and you can post a sponsor message for free! (stays for one week) </p>
+<button ng-show="$root.percentProgress == 100" class="button button-block button-royal" on-tap="$root.showSponsorMessageModal()" >
+  Post Free Message
+</button>
 
 <img class="center" src="img/mishna-trophy.png" width="150" height="150">
 

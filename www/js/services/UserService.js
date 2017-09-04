@@ -13,6 +13,14 @@ angular.module('starter.controllers').service('UserService', function ($window) 
     return $window.localStorage.getItem('learning-selection');
   };
 
+  this.setRewardsSpent = function(spent){
+    $window.localStorage.setItem('rewards-spent', spent);
+  };
+
+  this.getRewardsSpent = function () {
+    return $window.localStorage.getItem('rewards-spent')
+  };
+
   this.setUserId = function (id) {
     $window.localStorage['mishna-user-id'] = id;
     $window.localStorage['isLogged'] = 1;

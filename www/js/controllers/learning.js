@@ -14,6 +14,7 @@ angular.module('starter').controller('LearningController', function (
   $ionicPopup,
   UserFactory,
   AdminFactory,
+  SponsorFactory,
   NotificationService,
   SettingsService,
   UserService,
@@ -97,19 +98,7 @@ angular.module('starter').controller('LearningController', function (
       $scope.showCompleteTip += 1;
     }
 
-    $rootScope.percentProgress = 0;
-    $cordovaSQLite.execute(db, "SELECT total_mishna_completed, total_tehillim_completed FROM User").then(function(res){
-        $scope.max = res.rows.item(0).total_mishna_completed + res.rows.item(0).total_tehillim_completed;
-    });
-
-    var updateBar = setInterval(function(){
-      $rootScope.percentProgress++;
-      if($rootScope.percentProgress > $scope.max || $rootScope.percentProgress >= 100)
-        clearInterval(updateBar);
-      $scope.$apply();
-    },20);
-
-
+   updateProgressBar();
 
     var confirmPopup = $ionicPopup.confirm({
       title: 'Mazel Tov!',
@@ -155,6 +144,46 @@ angular.module('starter').controller('LearningController', function (
 
     });
   }
+
+  function updateProgressBar(){
+    $rootScope.percentProgress = 0;
+    $cordovaSQLite.execute(db, "SELECT total_mishna_completed, total_tehillim_completed FROM User").then(function(res){
+      $scope.max = res.rows.item(0).total_mishna_completed + res.rows.item(0).total_tehillim_completed;
+    });
+
+    var updateBar = setInterval(function(){
+      $rootScope.percentProgress++;
+      if($rootScope.percentProgress > $scope.max - 100*UserService.getRewardsSpent() || $rootScope.percentProgress >= 100)
+        clearInterval(updateBar);
+      $scope.$apply();
+    },20);
+  }
+
+  $rootScope.showSponsorMessageModal = function(){
+
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Free Sponsor Message!',
+      templateUrl: "templates/sponsorMessageModal.html",
+      cancelText: "cancel"
+    });
+
+    confirmPopup.then(function (completed) {
+      if (completed) {
+        $cordovaSQLite.execute(db, "SELECT email FROM user")
+          .then(function(res){
+            var email = res.rows.item(0).email;
+            var message = document.getElementById("sponsorMessage").value;
+            var type = document.getElementById("sponsorType").value + " ";
+
+            $scope.showAlert(email, type + message);
+
+            SponsorFactory.postFreeMessage(email, type + message);
+            UserService.setRewardsSpent(UserService.getRewardsSpent()+1);
+            updateProgressBar();
+          });
+      }
+    })
+  };
 
 
   $scope.getAnotherLearning = function () {

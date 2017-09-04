@@ -638,6 +638,13 @@ table tr:nth-child(even){
   text-align: center;
 }
 
+@media only screen and (max-height: 569px){
+  body.platform-ios  #sponsorMessage:focus{
+    margin-bottom: 45%;
+  }
+}
+
+
 
 
 
