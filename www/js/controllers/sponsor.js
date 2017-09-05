@@ -47,6 +47,8 @@ angular.module('starter').controller('SponsorController', function (
    */
   $scope.$on('$ionicView.beforeEnter', function () {
 
+    cordova.plugins.notification.badge.set(0);
+
     //show/hide menu objects across app on startup
     var selected = UserService.getLearningSelection().split(",");
     $rootScope.showMishna = selected.indexOf("mishnayos") > -1;

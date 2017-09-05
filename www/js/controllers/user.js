@@ -203,6 +203,7 @@ angular.module('starter').controller('UserController', function (
       firstAt: alertDate,
       message: "We haven't seen you in a while. Help make a daily siyum in Mishna/Tehillim!",
       title: "Siyum Daily Reminder",
+      badge: 1,
       autoCancel: false,
       sound: 'res://platform_default'
     });
@@ -226,6 +227,7 @@ angular.module('starter').controller('UserController', function (
       message: "Learn your daily Mishna/Tehillim!",
       title: "Siyum Daily Reminder",
       every: "day",
+      badge: 1,
       autoCancel: false,
       sound: 'res://platform_default'
     });
@@ -236,6 +238,7 @@ angular.module('starter').controller('UserController', function (
       message: "Seems you may have forgotten to learn your daily Mishna/Tehillim!",
       title: "Siyum Daily Reminder",
       every: "day",
+      badge: 1,
       autoCancel: false,
       sound: 'res://platform_default'
     });

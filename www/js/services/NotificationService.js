@@ -77,6 +77,7 @@ angular.module('starter.controllers').service('NotificationService', function(
       message: getMessage(id),
       title: "Siyum Daily",
       every: "day",
+      badge: 1,
       autoCancel: false,
       sound: 'res://platform_default'
     })
@@ -88,11 +89,11 @@ angular.module('starter.controllers').service('NotificationService', function(
       firstAt: alarmTime,
       message: getMessage(id),
       title: "Siyum Daily",
+      badge: 1,
       autoCancel: false,
       sound: 'res://platform_default'
     })
   };
-
 
   //message factory
   function getMessage(id) {

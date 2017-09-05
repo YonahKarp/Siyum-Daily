@@ -33,6 +33,10 @@ angular.module('starter', [
         Stripe.setPublishableKey('pk_live_ynoOFmw1eCYUbc0mJO5ZE5dT');
 
       });
+
+      $ionicPlatform.on('resume', function(){
+        cordova.plugins.notification.badge.set(0);
+      });
     })
 
     .config(function (
