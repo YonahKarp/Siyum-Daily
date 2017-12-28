@@ -8,7 +8,8 @@ angular.module('starter').controller('SponsorController', function (
   SponsorFactory,
   UserService,
   $cordovaSQLite,
-  NotificationService
+  NotificationService,
+  $cordovaLocalNotification
 ) {
   $ionicHistory.nextViewOptions({
     disableBack: true
@@ -49,6 +50,8 @@ angular.module('starter').controller('SponsorController', function (
 
     cordova.plugins.notification.badge.set(0);
 
+
+
     //show/hide menu objects across app on startup
     var selected = UserService.getLearningSelection().split(",");
     $rootScope.showMishna = selected.indexOf("mishnayos") > -1;
@@ -71,8 +74,8 @@ angular.module('starter').controller('SponsorController', function (
     $cordovaSQLite.execute(db, "SELECT julianDay('now') - julianDay(last_sponsor_update) as dateDiff FROM user")
       .then(function(res) {
 
-        //We only check the server once a week for new sponsor data
-        if (res.rows.item(0).dateDiff >= 7) {
+        //We only check the server once a day for new sponsor data
+        if (res.rows.item(0).dateDiff >= 1) {
 
           getSponsorsFromServer();
 

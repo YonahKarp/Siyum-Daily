@@ -8,7 +8,7 @@ angular.module('starter.controllers').service('UserService', function ($window) 
 
   this.getLearningSelection = function (){
     if ($window.localStorage.getItem('learning-selection') == null)
-      return "mishnayos";
+      return "mishnayos,tehillim";
 
     return $window.localStorage.getItem('learning-selection');
   };

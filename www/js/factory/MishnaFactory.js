@@ -3,7 +3,7 @@
 angular.module('starter').factory('MishnaFactory', function (
   $http, $cordovaSQLite
 ) {
-  var baseUrl = 'http://104.131.96.199/mishna-api/Mishna.class.php?';
+  var baseUrl = 'http://104.131.8.27/mishna-api/Mishna.class.php?';
 
   return {
     getRandomLearning: function (userId) {

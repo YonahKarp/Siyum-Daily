@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('starter').factory('SponsorFactory', function ($http) {
-  var baseUrl = 'http://104.131.96.199/mishna-api/Sponsor.class.php?';
+  var baseUrl = 'http://104.131.8.27/mishna-api/Sponsor.class.php?';
   //var baseUrl = 'http://192.168.0.13/xampp/siyum-daily-mishna-api/Sponsor.class.php?';
 
 
@@ -15,7 +15,7 @@ angular.module('starter').factory('SponsorFactory', function ($http) {
 
     postFreeMessage: function (email, message) {
       return $http.get(
-        'http://104.131.96.199/mishna-api/Stripe.class.php?' +
+        'http://104.131.8.27/mishna-api/Stripe.class.php?' +
         'method=contact' +
           '&email=' + email +
           '&option=free100' +

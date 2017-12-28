@@ -94,8 +94,13 @@ angular.module('starter').controller('UserController', function (
     var phone = document.getElementById("user-phone").value.trim();
 
     $scope.spin = true;
+
+
     UserFactory.addNewUser(email, phone).success(function (data) {
       var result = data.status;
+
+
+      $scope.showAlert("signingUp", "in1")
 
       if (result === 'email_already_exist') { //todo make separate method in backend to separate register and existence check
         $scope.showAlert("Sign Up", "It seems like you already have an account with this email address!");
@@ -106,12 +111,15 @@ angular.module('starter').controller('UserController', function (
 
         var newUserId = data.userId;
 
+        $scope.showAlert("signingUp", "in2")
+
 
         storeUserInDB(newUserId, email, phone, data.learning_selection, data.alert_time,
-          data.last_completed_mishna_date, data.last_completed_tehillim_date,
+          "", "",
           data.mishna_id, data.tehillim_id, data.next_cycle_date, data.totalMishna, data.totalTehillim);
 
         UserService.setRewardsSpent(0);
+
 
 
         createReminder();
@@ -142,7 +150,7 @@ angular.module('starter').controller('UserController', function (
           $state.go('app.splash');
 
           storeUserInDB(userId, email, data.phone, data.learning_selection, data.alert_time,
-            data.last_completed_mishna_date, data.last_completed_tehillim_date,
+            "", "",
             data.mishna_id, data.tehillim_id, data.next_cycle_date, data.totalMishna, data.totalTehillim);
 
 
@@ -335,7 +343,7 @@ angular.module('starter').controller('UserController', function (
           var db = window.sqlitePlugin.openDatabase({name: 'siyumDaily.db', location: 'default'});
 
           //using newest addition to database, we know if we need to delete old database and copy in the new one
-          $cordovaSQLite.execute(db, "SELECT learning_selection FROM User").then(function(res) {
+          $cordovaSQLite.execute(db, "SELECT * FROM TestTable1").then(function(res) {
           }, function (err) {
             //fail, user needs to update database (which clears user info)
             $scope.showAlert("Thank you for updating!", "");
@@ -354,6 +362,20 @@ angular.module('starter').controller('UserController', function (
     //make sure device is ready before moving forward
     // (fixes bug where) app gives white screen after backing out
     $ionicPlatform.ready(function () {
+
+      cordova.plugins.notification.local.on("trigger", function (){
+        cordova.plugins.notification.badge.set(1);
+      });
+
+    //   $scope.showAlert(
+    //     "Server Issues", 
+    //     "<center> <p>Thank you for being a part of Siyum Daily!</p>"+
+    //     "<p>Our server is having trouble and is currently down.</p>"+
+    //     "<p>We apologize for the inconvenience and we are working to get the server back up and running as soon as possible</p>"+
+    //     "<p>Thank you for understanding. Keep a look out for the next update!</p> </center>"
+    // );
+
+
       var isLogged = UserService.getIsLogged();
 
       if (isLogged === '1')

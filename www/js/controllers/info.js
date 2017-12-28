@@ -68,7 +68,7 @@ angular.module('starter').controller('InfoController', function (
 
               SponsorFactory.postFreeMessage(email, type + message);
               UserService.setRewardsSpent(UserService.getRewardsSpent()+1);
-              updateProgressBar()
+              updateProgressBar();
             });
         }
       })
@@ -78,8 +78,10 @@ angular.module('starter').controller('InfoController', function (
     $scope.percentProgress = 0;
     var updateBar = setInterval(function(){
       $scope.percentProgress++;
-      if($scope.percentProgress >= ($scope.yourMishnaTotal + $scope.yourTehillimTotal) - 100*UserService.getRewardsSpent() || $scope.percentProgress >= 100)
+      if($scope.percentProgress >= ($scope.yourMishnaTotal + $scope.yourTehillimTotal) - 100*UserService.getRewardsSpent() || $scope.percentProgress >= 100) {
         clearInterval(updateBar);
+        $scope.percentProgress = $scope.yourMishnaTotal + $scope.yourTehillimTotal - 100 * UserService.getRewardsSpent();
+      }
       $scope.$apply();
     },20);
   }

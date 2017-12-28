@@ -65,9 +65,8 @@ angular.module('starter.controllers').service('NotificationService', function(
     snoozeTime.setHours(snoozeHrMin[0],snoozeHrMin[1],0);
     snoozeTime.setDate(snoozeTime.getDate() + 1); //push off to tomorrow bc we completed
 
-    console.log("THIS IS SNOOOZE TIME:" + snoozeTime);
-
     this.setAlert(SNOOZE_ALERT, snoozeTime);
+
   };
 
   this.setAlert = function (id, alarmTime) {
@@ -108,6 +107,8 @@ angular.module('starter.controllers').service('NotificationService', function(
         return "Learn your daily Mishna/Tehillim and be part of the collective siyum!"
     }
   }
+
+
 
 
 });
